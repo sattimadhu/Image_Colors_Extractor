@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Image Color Extractor</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 20px;
+        }
+        .color-box {
+            display: inline-block;
+            width: 50px;
+            height: 50px;
+            margin: 2px;
+            border: 1px solid #ccc; /* Optional: adds border to color boxes */
+            cursor: pointer; /* Indicate that it's clickable */
+        }
+        .color-box:hover {
+            border-color: black; /* Optional: highlight on hover */
+        }
+    </style>
+</head>
+<body>
+    <h1>Upload an Image to Extract Top 10 Colors</h1>
+
+    <form method="POST" enctype="multipart/form-data" action="/">
+        <input type="file" name="image" accept="image/*" required>
+        <button type="submit">Upload Image</button>
+    </form>
+
+    {% if colors %}
+        <h2>Top 10 Important Colors:</h2>
+        <div id="colorContainer">
+            {% for color in colors %}
+                <div class="color-box" style="background-color: {{color}};" data-color="{{ color }}"></div>
+            {% endfor %}
+        </div>
+        <h2>Color Palette Image:</h2>
+        <img src="{{ url_for('static', filename='colors.png') }}" alt="Colors">
+    {% endif %}
+
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            const colorBoxes = document.querySelectorAll('.color-box');
+
+            colorBoxes.forEach(box => {
+                box.addEventListener('click', function() {
+                    const color = this.getAttribute('data-color');
+                    navigator.clipboard.writeText(color).then(() => {
+                        // alert('Color code copied to clipboard: ' + color);
+                    }).catch(err => {
+                        console.error('Error copying text: ', err);
+                    });
+                });
+            });
+        });
+    </script>
+</body>
+</html>
