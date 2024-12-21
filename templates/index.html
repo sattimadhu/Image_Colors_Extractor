@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Image Color Extractor</title>
+    <link rel="stylesheet" href="../static/styles/styles.css">
+    <link href='https://unpkg.com/boxicons@2.0.9/css/boxicons.min.css' rel='stylesheet'>
+    <link rel="stylesheet" href="{{url_for('static',filename='/styles/styles.css')}}">
+</head>
+<body>
+    <div class="container">
+        <form method="POST" enctype="multipart/form-data" action="/">
+            <input type="file" id="fileInput" name="image" accept="image/*" hidden>
+            <div class="img-area" id="uploadDiv" data-img="">
+                <i class='bx bxs-cloud-upload icon'></i>
+                <h3>Click here to Upload Image</h3>
+                <p>Image size must be less than <span>2MB</span></p>
+            </div>
+            <div class="btn-box">
+                <button type="submit" class="btn">Proceed</button>
+            </div>
+        </form>
+    </div>
+    <div class="color-container">
+        {% if colors %}
+        <div class="image-area">
+            
+        </div>
+        <h2 class="top-colors">Top 10 Colors Extracted:</h2>
+        <div id="colorContainer">
+            {% for color in colors %}
+                <div class="color-box" style="background-color: {{color}};" data-color="{{ color }}"></div>
+            {% endfor %}
+        </div>
+    {% endif %}
+    </div>
+    <script src="{{url_for('static',filename='/functions/script.js')}}"></script>
+</body>
+</html>
